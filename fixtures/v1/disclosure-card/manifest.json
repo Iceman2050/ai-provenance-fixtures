@@ -1,0 +1,65 @@
+{
+  "fixture": "disclosure-card",
+  "version": "v1",
+  "asset_kind": "text",
+  "description": "A disclosure chain: original -> CRLF re-encode -> body-only copy with the disclosure left behind.",
+  "steps": [
+    {
+      "step": 0,
+      "id": "original",
+      "transform": "create",
+      "description": "Original card: disclosure and the other assertions in the header, bound to the body hash.",
+      "asset": "step-00-original.txt",
+      "sidecar": null,
+      "asset_sha256": "93d4aa91c488da3dd0785ccbec88aeeb739f7f65f186525cfc292a5944fbb04c",
+      "payload_sha256": "c01cb33c42de7d72345867c6c55fa2da4183b3808ed7221e2e3ff1898ff920fa",
+      "previous_record_sha256": null,
+      "expected": {
+        "creator": "verified",
+        "created_at": "verified",
+        "license": "verified",
+        "ai_disclosure": "verified",
+        "content_description": "verified"
+      },
+      "record_sha256": "b2bc9d8562b4140055cd5b3132bc1ed7394715c968c23257e7e1f7fa165ec05f"
+    },
+    {
+      "step": 1,
+      "id": "crlf-re-encode",
+      "transform": "line endings LF -> CRLF",
+      "description": "The whole file re-encoded with CRLF line endings, as happens when a file passes through a Windows editor. Normalised content is identical; the binding still verifies.",
+      "asset": "step-01-crlf.txt",
+      "sidecar": null,
+      "asset_sha256": "4039c10a41196c40ed5b239d40e2dc991621d33c27349dd8d760f0b1bdfc4fd9",
+      "payload_sha256": "c01cb33c42de7d72345867c6c55fa2da4183b3808ed7221e2e3ff1898ff920fa",
+      "previous_record_sha256": "b2bc9d8562b4140055cd5b3132bc1ed7394715c968c23257e7e1f7fa165ec05f",
+      "expected": {
+        "creator": "verified",
+        "created_at": "verified",
+        "license": "verified",
+        "ai_disclosure": "verified",
+        "content_description": "verified"
+      },
+      "record_sha256": "82054325647bb8f3eec13f0da3353788c760d392087e48850b56e87d54d06cef"
+    },
+    {
+      "step": 2,
+      "id": "body-only-copy",
+      "transform": "copy the body, drop the header",
+      "description": "The body text copied on its own \u2014 the most common real-world transformation of all. The disclosure is lost, silently: nothing in the copy says anything is missing.",
+      "asset": "step-02-body-only.txt",
+      "sidecar": null,
+      "asset_sha256": "c19bc26b0aabbaf04cd70860fb9db9ab2f70d1514a921439f9f7fd806e68a621",
+      "payload_sha256": "c01cb33c42de7d72345867c6c55fa2da4183b3808ed7221e2e3ff1898ff920fa",
+      "previous_record_sha256": "82054325647bb8f3eec13f0da3353788c760d392087e48850b56e87d54d06cef",
+      "expected": {
+        "creator": "lost",
+        "created_at": "lost",
+        "license": "lost",
+        "ai_disclosure": "lost",
+        "content_description": "lost"
+      },
+      "record_sha256": "584780149da354257468794b8a8d04a9c987b9db3d3227e562eec4ec18758066"
+    }
+  ]
+}

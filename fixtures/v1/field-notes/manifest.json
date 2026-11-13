@@ -1,0 +1,84 @@
+{
+  "fixture": "field-notes",
+  "version": "v1",
+  "asset_kind": "text",
+  "description": "A text chain: header-bound original -> re-wrap -> excerpt with the original header -> header stripped.",
+  "steps": [
+    {
+      "step": 0,
+      "id": "original",
+      "transform": "create",
+      "description": "Original text with the provenance header block, bound to the whitespace-normalised body hash.",
+      "asset": "step-00-original.txt",
+      "sidecar": null,
+      "asset_sha256": "a48e93a7da4db069bfb4b11ad48380f18d1bb35959e3467b39f3731afe0a8640",
+      "payload_sha256": "dd29fa72308f065a1ac29bb40f293dc9c9a0f989ad1ff1dd85ef0e24af71b548",
+      "previous_record_sha256": null,
+      "expected": {
+        "creator": "verified",
+        "created_at": "verified",
+        "license": "verified",
+        "ai_disclosure": "verified",
+        "content_description": "verified"
+      },
+      "record_sha256": "46fe372cb8b0ff9089709deea5897dcaaf6c57115fcdb9d59c38c024878f8bfa"
+    },
+    {
+      "step": 1,
+      "id": "rewrap",
+      "transform": "re-wrap paragraphs 88 -> 64 columns",
+      "description": "Same words, narrower lines. The normalised body hash is unchanged, so the header binding still verifies \u2014 line breaks are not content here.",
+      "asset": "step-01-rewrapped.txt",
+      "sidecar": null,
+      "asset_sha256": "8cb61d6c951bd267dd5877bc8b639ea99352b549986fa640080515b08bfd4b11",
+      "payload_sha256": "dd29fa72308f065a1ac29bb40f293dc9c9a0f989ad1ff1dd85ef0e24af71b548",
+      "previous_record_sha256": "46fe372cb8b0ff9089709deea5897dcaaf6c57115fcdb9d59c38c024878f8bfa",
+      "expected": {
+        "creator": "verified",
+        "created_at": "verified",
+        "license": "verified",
+        "ai_disclosure": "verified",
+        "content_description": "verified"
+      },
+      "record_sha256": "137f82967b8833a033e4e127705d53fabb7a4ac733ca9a52ef8ed4d0e562d5a2"
+    },
+    {
+      "step": 2,
+      "id": "excerpt",
+      "transform": "excerpt (first paragraph only)",
+      "description": "Only the first paragraph was kept; the header was copied across unchanged. The assertions are present but bound to the full text, so they no longer verify against this excerpt.",
+      "asset": "step-02-excerpt.txt",
+      "sidecar": null,
+      "asset_sha256": "f6cbb1ffaf06c6da9985185f925bb23c870d4ab8e3222fcca0d181f808d9b5b5",
+      "payload_sha256": "6ce62d336e5b990121a87b701db43d745ac242228f0a34afeb23f5fa14eaa547",
+      "previous_record_sha256": "137f82967b8833a033e4e127705d53fabb7a4ac733ca9a52ef8ed4d0e562d5a2",
+      "expected": {
+        "creator": "unknown",
+        "created_at": "unknown",
+        "license": "unknown",
+        "ai_disclosure": "unknown",
+        "content_description": "unknown"
+      },
+      "record_sha256": "bdd049fc9da1f81038a2688499af41f07f60c020dae76ef23059d377939e620f"
+    },
+    {
+      "step": 3,
+      "id": "strip-header",
+      "transform": "remove the provenance header",
+      "description": "The body alone, exactly as it circulates when someone copies the text and leaves the header behind. No assertion survives in the asset.",
+      "asset": "step-03-stripped.txt",
+      "sidecar": null,
+      "asset_sha256": "284be3571cc61fe6acaa19c1a505532b814573c1a65221cb41dd4233a3e3b22a",
+      "payload_sha256": "6ce62d336e5b990121a87b701db43d745ac242228f0a34afeb23f5fa14eaa547",
+      "previous_record_sha256": "bdd049fc9da1f81038a2688499af41f07f60c020dae76ef23059d377939e620f",
+      "expected": {
+        "creator": "lost",
+        "created_at": "lost",
+        "license": "lost",
+        "ai_disclosure": "lost",
+        "content_description": "lost"
+      },
+      "record_sha256": "432249268db713792b42b6edd27b9d6e93abc124eb9f641f30466f6645fa5ee1"
+    }
+  ]
+}

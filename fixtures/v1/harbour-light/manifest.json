@@ -1,0 +1,103 @@
+{
+  "fixture": "harbour-light",
+  "version": "v1",
+  "asset_kind": "png",
+  "description": "An image chain: embedded assertions -> re-encode -> metadata stripped with a sidecar -> resize with a stale sidecar -> crop with no carriage at all.",
+  "steps": [
+    {
+      "step": 0,
+      "id": "original",
+      "transform": "create",
+      "description": "Original asset. Assertions embedded as PNG tEXt chunks, bound to the pixel hash.",
+      "asset": "step-00-original.png",
+      "sidecar": null,
+      "asset_sha256": "c593947b17549b649592dc0a39f1aa1cd4112a0b9bbcf6e447e4f7f123df7cc7",
+      "payload_sha256": "49907c33a1392b7981fbd3132f8fd8c9499f7fd134f1200664ac9868d0eb6549",
+      "previous_record_sha256": null,
+      "expected": {
+        "creator": "verified",
+        "created_at": "verified",
+        "license": "verified",
+        "ai_disclosure": "verified",
+        "content_description": "verified"
+      },
+      "record_sha256": "da7f2df7933a8e98a0ad32054c7900a79105fea9911fb3241e923e927fd02cb7"
+    },
+    {
+      "step": 1,
+      "id": "re-encode",
+      "transform": "re-encode (Sub row filter, same pixels)",
+      "description": "Same pixels, different file bytes. The embedded assertions survive and their pixel-hash binding still matches \u2014 file hash changes, content does not.",
+      "asset": "step-01-reencode.png",
+      "sidecar": null,
+      "asset_sha256": "c9886309d30da469f4d2aab09f0fdcdef3882b94557f332b2d33bb2ca0bf6286",
+      "payload_sha256": "49907c33a1392b7981fbd3132f8fd8c9499f7fd134f1200664ac9868d0eb6549",
+      "previous_record_sha256": "da7f2df7933a8e98a0ad32054c7900a79105fea9911fb3241e923e927fd02cb7",
+      "expected": {
+        "creator": "verified",
+        "created_at": "verified",
+        "license": "verified",
+        "ai_disclosure": "verified",
+        "content_description": "verified"
+      },
+      "record_sha256": "1498680be9020ba572d6239af19057a3f74aafa34facad42059d2e8327a50af0"
+    },
+    {
+      "step": 2,
+      "id": "strip-metadata-sidecar",
+      "transform": "strip tEXt chunks; sidecar added",
+      "description": "Embedded assertions removed. The same assertions travel in a detached sidecar file instead, still bound to the unchanged pixel hash.",
+      "asset": "step-02-stripped.png",
+      "sidecar": "step-02-sidecar.json",
+      "asset_sha256": "8de88637038f73835f0f86d751f8594ecf35c05d4c8e2695f40f869660e85fc9",
+      "payload_sha256": "49907c33a1392b7981fbd3132f8fd8c9499f7fd134f1200664ac9868d0eb6549",
+      "previous_record_sha256": "1498680be9020ba572d6239af19057a3f74aafa34facad42059d2e8327a50af0",
+      "expected": {
+        "creator": "verified",
+        "created_at": "verified",
+        "license": "verified",
+        "ai_disclosure": "verified",
+        "content_description": "verified"
+      },
+      "record_sha256": "6dc5461b3c4e8d84790be490d4570e176e7cf45b5479b885ad1d9559af619ddf"
+    },
+    {
+      "step": 3,
+      "id": "resize-sidecar-stale",
+      "transform": "resize 48x32 -> 24x16; sidecar kept",
+      "description": "Pixels changed by the resize. The sidecar still carries the assertions, but they are bound to the old pixel hash \u2014 the claims are present and unverifiable against this content.",
+      "asset": "step-03-resized.png",
+      "sidecar": "step-03-sidecar.json",
+      "asset_sha256": "05f36881d4b15afa0af374b0d530e7f73c2d0094197dec879e03429e6dad207d",
+      "payload_sha256": "8820e1817de7a29f3f15a8548f3db6fd2c3e3a2ee4f615c4531973cc53028a0c",
+      "previous_record_sha256": "6dc5461b3c4e8d84790be490d4570e176e7cf45b5479b885ad1d9559af619ddf",
+      "expected": {
+        "creator": "unknown",
+        "created_at": "unknown",
+        "license": "unknown",
+        "ai_disclosure": "unknown",
+        "content_description": "unknown"
+      },
+      "record_sha256": "e45b74b8b7daded3e7430405146e3b2d88997054056557e54d10c3fd6043a8c2"
+    },
+    {
+      "step": 4,
+      "id": "crop-no-carriage",
+      "transform": "crop to 16x12; sidecar dropped",
+      "description": "Cropped, and nothing carries the assertions any more: no embedded metadata, no sidecar. Whatever the original claimed is simply gone from the asset.",
+      "asset": "step-04-cropped.png",
+      "sidecar": null,
+      "asset_sha256": "6bf369ee23eea0d1c2da9f0fced0d193a2819e67233223c27b41557b446c630d",
+      "payload_sha256": "c56c7200435fcbd9c14f88d7b22ae6ac14fe7e4d91bacab0a014b6f6d6294257",
+      "previous_record_sha256": "e45b74b8b7daded3e7430405146e3b2d88997054056557e54d10c3fd6043a8c2",
+      "expected": {
+        "creator": "lost",
+        "created_at": "lost",
+        "license": "lost",
+        "ai_disclosure": "lost",
+        "content_description": "lost"
+      },
+      "record_sha256": "e785569ebeb921a68cce55856f24b5e7f486b51e40a14533d3cfb9d623c9fb2b"
+    }
+  ]
+}
